@@ -12,6 +12,7 @@ RUN mkdir /opt/overrides && chmod a+x /tmp/*.sh \
  && mv /tmp/start-kafka.sh /tmp/broker-list.sh /tmp/create-topics.sh /usr/bin \
  && tar xfz /tmp/kafka_2.11-2.1.0-SNAPSHOT.tgz -C /opt \
  && ln -s /opt/kafka_2.11-2.1.0-SNAPSHOT /opt/kafka \
+ && chmod a+x /opt/kafka/bin/*.sh \
  && rm /tmp/*
 
 COPY overrides /opt/overrides
