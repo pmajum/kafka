@@ -19,6 +19,7 @@ volumes: [
     stage('Test') {
       try {
         container('gradle') {
+          println "Starting Gradle"
           sh """
             pwd
             echo "GIT_BRANCH=${gitBranch}" >> /etc/environment
