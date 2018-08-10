@@ -17,16 +17,34 @@ podTemplate(
   )
   {
     node('mypod') {
-        def commitId
-        stage ('Extract') {
-            checkout scm
-            commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+        def myRepo = checkout scm
+    def gitCommit = myRepo.GIT_COMMIT
+    def gitBranch = myRepo.GIT_BRANCH
+    def shortGitCommit = "${gitCommit[0..10]}"
+    def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
+ 
+    stage('Test') {
+      try {
+        container('gradle') {
+          println "Starting Gradle"
+          sh """
+            pwd
+            echo "GIT_BRANCH=${gitBranch}" >> /etc/environment
+            echo "GIT_COMMIT=${gitCommit}" >> /etc/environment
+            gradle test
+            """
         }
-        stage('Build') {
-         container('gradle') {
-           sh "sudo gradle build"
-         }
-       }
+      }
+      catch (exc) {
+        println "Failed to test - ${currentBuild.fullDisplayName}"
+        throw(exc)
+      }
+    }
+    stage('Build') {
+      container('gradle') {
+        sh "gradle build"
+      }
+    }
         def repository
         stage ('Docker') {
             container ('docker') {
