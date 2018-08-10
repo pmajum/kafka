@@ -1,46 +1,36 @@
-podTemplate(label: 'mypod',
-   inheritFrom: 'default', containers: [
-  containerTemplate(name: 'gradle', image: 'gradle:4.5.1-jdk9', command: 'cat', ttyEnabled: true),
-  containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
-  containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
-  containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true)
-],
-volumes: [
+podTemplate(
+    label: 'mypod', 
+    inheritFrom: 'default',
+    containers: [
+        containerTemplate(name: 'gradle', image: 'gradle:4.5.1-jdk9', command: 'cat', ttyEnabled: true),
+        containerTemplate(
+            name: 'docker', 
+            image: 'docker:18.02',
+            ttyEnabled: true,
+            command: 'cat'
+        )
+    ],
+    volumes: [
   hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/tmp/jenkins/.gradle'),
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
-]) {
-  node(label) {
-    def myRepo = checkout scm
-    def gitCommit = myRepo.GIT_COMMIT
-    def gitBranch = myRepo.GIT_BRANCH
-    def shortGitCommit = "${gitCommit[0..10]}"
-    def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
- 
-    stage('Test') {
-      try {
-        container('gradle') {
-          println "Starting Gradle"
-          sh """
-            pwd
-            echo "GIT_BRANCH=${gitBranch}" >> /etc/environment
-            echo "GIT_COMMIT=${gitCommit}" >> /etc/environment
-            gradle test
-            """
+  ]
+  )
+  {
+    node('mypod') {
+        def commitId
+        stage ('Extract') {
+            checkout scm
+            commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
         }
-      }
-      catch (exc) {
-        println "Failed to test - ${currentBuild.fullDisplayName}"
-        throw(exc)
-      }
-    }
-    stage('Build') {
-      container('gradle') {
-        sh "gradle build"
-      }
-    }
-    stage('Create Docker images') {
-      container('docker') {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding',
+        stage('Build') {
+         container('gradle') {
+           sh "gradle build"
+         }
+       }
+        def repository
+        stage ('Docker') {
+            container ('docker') {
+          withCredentials([[$class: 'UsernamePasswordMultiBinding',
           credentialsId: 'dockerhub',
           usernameVariable: 'DOCKER_HUB_USER',
           passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
@@ -49,8 +39,8 @@ volumes: [
             docker build -t namespace/my-image:${gitCommit} .
             docker push namespace/my-image:${gitCommit}
             """
-        }
-      }
+            }
+            }}
+        
     }
-  }
 }
