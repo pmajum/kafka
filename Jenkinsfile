@@ -24,7 +24,7 @@ podTemplate(
         }
         stage('Build') {
          container('gradle') {
-           sh "gradle build"
+           sh "echo 'starting build';gradle build"
          }
        }
         def repository
