@@ -1,23 +1,15 @@
-podTemplate(
-    label: 'mypod', 
-    inheritFrom: 'default',
-    containers: [
-        containerTemplate(name: 'gradle', image: 'gradle:4.5.1-jdk9', command: 'cat', ttyEnabled: true),
-        containerTemplate(
-            name: 'docker', 
-            image: 'docker:18.02',
-            ttyEnabled: true,
-            command: 'cat'
-        )
-    ],
-    volumes: [
+def label = "worker-${UUID.randomUUID().toString()}"
+
+podTemplate(label: label, containers: [
+  containerTemplate(name: 'gradle', image: 'gradle:4.5.1-jdk9', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)
+],
+volumes: [
   hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/tmp/jenkins/.gradle'),
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
-  ]
-  )
-  {
-    node('mypod') {
-        def myRepo = checkout scm
+]) {
+  node(label) {
+    def myRepo = checkout scm
     def gitCommit = myRepo.GIT_COMMIT
     def gitBranch = myRepo.GIT_BRANCH
     def shortGitCommit = "${gitCommit[0..10]}"
@@ -26,7 +18,6 @@ podTemplate(
     stage('Test') {
       try {
         container('gradle') {
-          println "Starting Gradle"
           sh """
             pwd
             echo "GIT_BRANCH=${gitBranch}" >> /etc/environment
@@ -45,10 +36,9 @@ podTemplate(
         sh "gradle build"
       }
     }
-        def repository
-        stage ('Docker') {
-            container ('docker') {
-          withCredentials([[$class: 'UsernamePasswordMultiBinding',
+    stage('Create Docker images') {
+      container('docker') {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding',
           credentialsId: 'dockerhub',
           usernameVariable: 'DOCKER_HUB_USER',
           passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
@@ -57,8 +47,18 @@ podTemplate(
             docker build -t namespace/my-image:${gitCommit} .
             docker push namespace/my-image:${gitCommit}
             """
-            }
-            }}
-        
+        }
+      }
     }
+    stage('Run kubectl') {
+      container('kubectl') {
+        sh "kubectl get pods"
+      }
+    }
+    stage('Run helm') {
+      container('helm') {
+        sh "helm list"
+      }
+    }
+  }
 }
