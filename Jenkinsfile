@@ -22,7 +22,6 @@ volumes: [
             pwd
             echo "GIT_BRANCH=${gitBranch}" >> /etc/environment
             echo "GIT_COMMIT=${gitCommit}" >> /etc/environment
-            gradle test
             """
         }
       }
@@ -31,5 +30,11 @@ volumes: [
         throw(exc)
       }
     }
+        stage('Build') {
+      container('gradle') {
+        sh "gradle build"
+      }
+    }
+
   }
 }
