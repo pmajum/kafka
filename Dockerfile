@@ -21,3 +21,6 @@ VOLUME ["/kafka"]
 
 # Use "exec" form so that it runs as PID 1 (useful for graceful shutdown)
 CMD ["start-kafka.sh"]
+
+
+RUN useradd -u 1000 -g 1000 -ms /bin/bash jenkins
