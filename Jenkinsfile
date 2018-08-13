@@ -5,7 +5,8 @@ kind: Pod
 metadata:
   generateName: agent-k8s-
   labels:
-    name: testing
+    name: gradle
+    label: gradle
 spec:
   securityContext:
     runAsUser: 1000
