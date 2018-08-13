@@ -1,13 +1,32 @@
 def label = "worker-${UUID.randomUUID().toString()}"
+def yamlWorkAround = """
+apiVersion: v1
+kind: Pod
+metadata:
+  generateName: agent-k8s-
+  labels:
+    name: jnlp
+    label: jnlp
+spec:
+  securityContext:
+    runAsUser: 1000
+  containers:
+  - name: jnlp
+    image: jenkins/jnlp-slave
+    tty: true
+    securityContext:
+      runAsUser: 2000
+      allowPrivilegeEscalation: false
+  - name: dind
+    image: docker:dind
+    tty: true
+    securityContext:
+      runAsUser: 0
+      privileged: true
+"""
 
-podTemplate(label: label, runAsUser: 1000, fsGroup: 1000, containers: [
-  containerTemplate(name: 'gradle', image: 'gradle:4.5.1-jdk9', command: 'cat', ttyEnabled: true),
-  containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)
-],
-volumes: [
-  hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/tmp/jenkins/.gradle'),
-  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
-]) {
+
+podTemplate(label: label, yaml: yamlWorkAround) {
   node(label) {
     def myRepo = checkout scm
     def gitCommit = myRepo.GIT_COMMIT
