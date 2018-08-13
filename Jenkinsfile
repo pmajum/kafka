@@ -63,9 +63,18 @@ podTemplate(label: label, yaml: yamlWorkAround) {
             docker build -t namespace/my-image:${gitCommit} .
             docker push namespace/my-image:${gitCommit}
             """
+        }
       }
     }
-    
-
+    stage('Run kubectl') {
+      container('kubectl') {
+        sh "kubectl get pods"
+      }
+    }
+    stage('Run helm') {
+      container('helm') {
+        sh "helm list"
+      }
+    }
   }
 }
