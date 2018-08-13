@@ -16,6 +16,7 @@ spec:
     tty: true
     securityContext:
       runAsUser: 0
+      fsGroup : 0
       allowPrivilegeEscalation: false
 """
     podTemplate(label: labelDind, yaml:yamlDinD) {
