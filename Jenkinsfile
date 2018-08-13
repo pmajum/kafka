@@ -24,8 +24,7 @@ spec:
       runAsUser: 0
       privileged: true
 """
-    timestamps {
-      podTemplate(label: labelDind, yaml:yamlDinD) {
+    podTemplate(label: labelDind, yaml:yamlDinD) {
           node(labelDind){
             stage('Build Docker Image'){
                 sh "id"
@@ -39,6 +38,6 @@ spec:
                 }
               }
             }
-          }
+          
     
 
