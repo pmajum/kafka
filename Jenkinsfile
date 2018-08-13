@@ -1,4 +1,4 @@
-ef label = "worker-${UUID.randomUUID().toString()}"
+def label = "worker-${UUID.randomUUID().toString()}"
 def yamlWorkAround = """
 apiVersion: v1
 kind: Pod
