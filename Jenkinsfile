@@ -6,8 +6,8 @@ metadata:
   name: openwhisk-deploy-demo
 spec:
   securityContext:
-    runAsUser: jenkins
-    fsGroup: jenkins
+    runAsUser: 1000
+    fsGroup: 1000
   volumes:
   - name: sec-ctx-vol
     emptyDir: {}
