@@ -3,18 +3,17 @@ def yamlWorkAround = """
 apiVersion: v1
 kind: Pod
 metadata:
-  name: openwhisk-deploy-demo
+  name: security-context-demo
 spec:
   securityContext:
     runAsUser: 1000
-    fsGroup: 1000
+    fsGroup: 2000
   volumes:
   - name: sec-ctx-vol
     emptyDir: {}
   containers:
-  - name: gradle
-    image: gradle:4.5.1-jdk9
-    tty: true
+  - name: sec-ctx-demo
+    image: gcr.io/google-samples/node-hello:1.0
     volumeMounts:
     - name: sec-ctx-vol
       mountPath: /data/demo
