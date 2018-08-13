@@ -21,12 +21,10 @@ spec:
 """
     podTemplate(label: labelDind, yaml:yamlDinD) {
           node(labelDind){
-            stage('Build Docker Image'){
-                sh "id"
-                  container('gradle'){
-                     sh "id"
+            container('gradle'){
+                     sh "gradle build"
                   }
-                }
+                
               }
             }
           
