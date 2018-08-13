@@ -35,7 +35,8 @@ podTemplate(label: label, yaml: yamlWorkAround) {
     
     stage('Build') {
       container('gradle') {
-        sh "useradd -u $(id -u) -g $(id -g)"
+        sh "groupadd -g $(id -g) jenkins"
+        sh "useradd -u $(id -u) -g $(id -g) jenkins"
         sh "gradle build"
       }
     }
