@@ -5,8 +5,7 @@ kind: Pod
 metadata:
   generateName: agent-k8s-
   labels:
-    name: jnlp
-    label: jnlp
+    name: testing
 spec:
   securityContext:
     runAsUser: 1000
