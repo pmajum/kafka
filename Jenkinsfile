@@ -15,7 +15,6 @@ spec:
   - name: gradle
     image: gradle:4.5.1-jdk9
     tty: true
-    command: cat
     volumeMounts:
     - name: sec-ctx-vol
       mountPath: /data/demo
