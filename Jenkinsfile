@@ -25,7 +25,6 @@ spec:
 
 podTemplate(label: label, yaml: yamlWorkAround) {
   node(label) {
-    node(label) {
     def myRepo = checkout scm
     def gitCommit = myRepo.GIT_COMMIT
     def gitBranch = myRepo.GIT_BRANCH
@@ -64,9 +63,9 @@ podTemplate(label: label, yaml: yamlWorkAround) {
             docker build -t namespace/my-image:${gitCommit} .
             docker push namespace/my-image:${gitCommit}
             """
-        }
       }
     }
+    
 
   }
 }
