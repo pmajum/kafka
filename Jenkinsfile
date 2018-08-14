@@ -12,7 +12,7 @@ spec:
     runAsUser: 1000
   containers:
   - name: gradle
-    image: gradle:4.5.1-jdk9
+    image: gradle:3.4-jdk8
     tty: true
     securityContext:
       runAsUser: 0
