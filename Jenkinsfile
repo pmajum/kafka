@@ -27,8 +27,7 @@ spec:
     image: gradle:4.5.1-jdk9
     tty: true
     securityContext:
-      runAsUser: 0
-      fsGroup : 0
+      runAsUser: 2000
       allowPrivilegeEscalation: false
 """
     podTemplate(label: labelDind, yaml:yamlDinD) {
