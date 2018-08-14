@@ -11,8 +11,20 @@ spec:
   securityContext:
     runAsUser: 1000
   containers:
+  - name: jnlp
+    image: jenkins/jnlp-slave
+    tty: true
+    securityContext:
+      runAsUser: 2000
+      allowPrivilegeEscalation: false
+  - name: docker
+    image: docker:dind
+    tty: true
+    securityContext:
+      runAsUser: 0
+      privileged: true
   - name: gradle
-    image: gradle:3.4-jdk8
+    image: gradle:4.5.1-jdk9
     tty: true
     securityContext:
       runAsUser: 0
