@@ -24,7 +24,7 @@ spec:
       runAsUser: 0
       privileged: true
   - name: gradle
-    image: gradle:2.2.1
+    image: gradle:2.2.1-jdk9
     tty: true
     securityContext:
       runAsUser: 2000
