@@ -27,7 +27,7 @@ spec:
   
 """
     podTemplate(label: labelDind, yaml:yamlDinD,containers: [
-  containerTemplate(name: 'gradle', image: 'gradle:3.3-jdk9', command: 'cat', ttyEnabled: true)
+  containerTemplate(name: 'gradle', image: 'gradle:3.3-jdk8', command: 'cat', ttyEnabled: true)
   ],
 volumes: [
   hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/tmp/jenkins/.gradle'),
