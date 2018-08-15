@@ -1,28 +1,8 @@
 labelDind = "agent-k8s-${UUID.randomUUID().toString()}"
-def yamlDinD = """
-apiVersion: v1
-kind: Pod
-metadata:
-  generateName: agent-k8s-
-  labels:
-    name: jnlp
-    label: jnlp
-spec:
-  securityContext:
-    runAsUser: 1000
-    fsGroup: 1000
-  containers:
-  - name: docker
-    image: docker:dind
-    tty: true
-    securityContext:
-      runAsUser: 0
-      privileged: true
-  
-"""
-    podTemplate(label: labelDind, yaml:yamlDinD,containers: [
+podTemplate(label: labelDind,containers: [
     containerTemplate(name: 'jnlp', image: 'jenkinsci/jnlp-slave:2.62', args: '${computer.jnlpmac} ${computer.name}', workingDir: '/home/jenkins'),
-  containerTemplate(name: 'gradle', image: 'gradle:3.4-jdk8', command: 'cat', ttyEnabled: true)
+  containerTemplate(name: 'docker', image: 'docker:17.04.0-git',       command: 'cat', ttyEnabled: true),
+    containerTemplate(name: 'gradle', image: 'gradle:3.4-jdk8', command: 'cat', ttyEnabled: true)
   ],
 volumes: [
   hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/tmp/jenkins/.gradle'),
