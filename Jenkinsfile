@@ -10,6 +10,7 @@ metadata:
 spec:
   securityContext:
     runAsUser: 1000
+    fsGroup: 1000
   containers:
   - name: jnlp
     image: jenkins/jnlp-slave
