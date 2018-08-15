@@ -39,6 +39,11 @@ volumes: [
         }
     stage('Test') {
       try {
+      container('jnlp') {
+          sh """
+            id
+            """
+        }
         container('gradle') {
           sh """
             gradle test
@@ -51,11 +56,21 @@ volumes: [
       }
     }
     stage('Build') {
+    container('jnlp') {
+          sh """
+            id
+            """
+        }
       container('gradle') {
         sh "gradle build"
       }
     }
     stage('Create Docker images') {
+    container('jnlp') {
+          sh """
+            id
+            """
+        }
       container('docker') {
         withCredentials([[$class: 'UsernamePasswordMultiBinding',
           credentialsId: 'dockerhub',
