@@ -18,6 +18,11 @@ spec:
     tty: true
     securityContext:
       runAsUser: 1000
+  - name: docker
+    image: docker
+    tty: true
+    securityContext:
+      runAsUser: 0
 
 """
 podTemplate(label: labelDind,, yaml:yamlDinD,containers: [
