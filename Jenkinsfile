@@ -28,6 +28,7 @@ volumes: [
           node(labelDind){
      container('jnlp') {
           sh """
+          useradd -u $(id -u) gradle;
           whoami;
             id
             """
