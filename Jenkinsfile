@@ -7,7 +7,10 @@ metadata:
   labels:
     name: jnlp
     label: jnlp
+    
 spec:
+  securityContext:
+    runAsUser: 0
   containers:
   - name: jnlp
     image: jenkins/jnlp-slave
