@@ -37,6 +37,11 @@ volumes: [
             id
             """
         }
+        container('docker') {
+          sh """
+            id
+            """
+        }
     container('gradle') {
           sh """
             gradle test
