@@ -28,17 +28,18 @@ volumes: [
           node(labelDind){
      container('jnlp') {
           sh """
+          whoami;
             id
             """
         }
         container('docker') {
           sh """
-            id
+          whoami;  id
             """
         }
     
       container('gradle') {
-        sh "id"
+        sh "whoami;id"
       }
       
           def myRepo = checkout scm
