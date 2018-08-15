@@ -37,7 +37,7 @@ volumes: [
       }
       
     container('gradle') {
-        sh "id"
+        sh "build gradle"
       }
       
     }
