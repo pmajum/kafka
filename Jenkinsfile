@@ -26,7 +26,6 @@ volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
 ]) {
           node(labelDind){
-          def myRepo = checkout scm
      container('jnlp') {
           sh """
             id
@@ -42,6 +41,7 @@ volumes: [
         sh "gradle build"
       }
       
+          def myRepo = checkout scm
     
       
     
