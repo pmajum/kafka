@@ -42,12 +42,7 @@ volumes: [
             id
             """
         }
-    container('gradle') {
-          sh """
-            gradle test
-            """
-        }
-     
+    
       container('gradle') {
         sh "gradle build"
       }
