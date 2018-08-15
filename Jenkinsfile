@@ -20,8 +20,6 @@ spec:
   - name: gradle
     image: gradle:4.5.1-jdk9
     tty: true
-    securityContext:
-      runAsUser: 0
 """
 podTemplate(label: labelDind,, yaml:yamlDinD,containers: [
     containerTemplate(name: 'docker', image: 'docker',       command: 'cat', ttyEnabled: true),
