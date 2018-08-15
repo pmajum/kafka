@@ -28,7 +28,6 @@ volumes: [
           node(labelDind){
      container('jnlp') {
           sh """
-          usermod -u 1000 jenkins;
           cat /etc/passwd;
           id
             """
@@ -42,7 +41,7 @@ volumes: [
       container('gradle') {
         sh "whoami;id"
       }
-      
+      id
           def myRepo = checkout scm
     
       
