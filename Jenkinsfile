@@ -37,56 +37,18 @@ volumes: [
             id
             """
         }
-    stage('Test') {
-      try {
-      container('jnlp') {
-          sh """
-            id
-            """
-        }
-        container('gradle') {
+    container('gradle') {
           sh """
             gradle test
             """
         }
-      }
-      catch (exc) {
-        println "Failed to test - ${currentBuild.fullDisplayName}"
-        throw(exc)
-      }
-    }
-    stage('Build') {
-    container('jnlp') {
-          sh """
-            id
-            """
-        }
+     
       container('gradle') {
         sh "gradle build"
-      }
-    }
-    stage('Create Docker images') {
-    container('jnlp') {
-          sh """
-            id
-            """
-        }
-      container('docker') {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding',
-          credentialsId: 'dockerhub',
-          usernameVariable: 'DOCKER_HUB_USER',
-          passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
-          sh """
-            docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
-            docker build -t namespace/my-image:${gitCommit} .
-            docker push namespace/my-image:${gitCommit}
-            """
-        }
       }
       
     
       
-    }
     
               }
             }
