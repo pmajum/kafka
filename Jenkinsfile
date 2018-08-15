@@ -27,16 +27,16 @@ volumes: [
 ]) {
           node(labelDind){
      container('jnlp') {
-          sh """
+          sh "
           useradd -u $(id -u) gradle;
           whoami;
             id
-            """
+            "
         }
         container('docker') {
-          sh """
+          sh "
           whoami;  id
-            """
+         "
         }
     
       container('gradle') {
