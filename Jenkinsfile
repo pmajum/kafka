@@ -12,12 +12,6 @@ spec:
     runAsUser: 1000
     fsGroup: 1000
   containers:
-  - name: jnlp
-    image: jenkins/jnlp-slave
-    tty: true
-    securityContext:
-      runAsUser: 1000
-      allowPrivilegeEscalation: false
   - name: docker
     image: docker:dind
     tty: true
@@ -27,6 +21,7 @@ spec:
   
 """
     podTemplate(label: labelDind, yaml:yamlDinD,containers: [
+    containerTemplate(name: 'jnlp', image: 'jenkinsci/jnlp-slave:2.62', args: '${computer.jnlpmac} ${computer.name}', workingDir: '/home/jenkins'),
   containerTemplate(name: 'gradle', image: 'gradle:3.4-jdk8', command: 'cat', ttyEnabled: true)
   ],
 volumes: [
