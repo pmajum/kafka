@@ -38,7 +38,7 @@ volumes: [
         }
     
       container('gradle') {
-        sh "gradle build"
+        sh "id"
       }
       
           def myRepo = checkout scm
