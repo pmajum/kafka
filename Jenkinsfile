@@ -42,7 +42,7 @@ volumes: [
         }
     
       container('gradle') {
-        sh "whoami;id"
+        sh "whoami;cat /etc/passwd;id"
       }
      
           def myRepo = checkout scm
