@@ -14,7 +14,7 @@ spec:
     workingDir: '/home/jenkins'
     tty: true
     securityContext:
-      runAsUser: 1000
+      runAsUser: 0
 
 """
 podTemplate(label: labelDind,, yaml:yamlDinD,containers: [
@@ -28,9 +28,8 @@ volumes: [
           node(labelDind){
      container('jnlp') {
           sh """
-          useradd -u 1000 gradle;
-          whoami;
-            id
+          cat /etc/passwd; 
+          id
             """
         }
         container('docker') {
