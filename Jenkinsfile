@@ -35,7 +35,8 @@ volumes: [
      container('jnlp') {
           sh """
           useradd -u 1000 -p '' gradle;
-          su - gradle;
+          cat /etc/passwd;
+          su - jenkins;
           cat /etc/passwd;
           id
             """
