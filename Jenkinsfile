@@ -28,7 +28,8 @@ volumes: [
           node(labelDind){
      container('jnlp') {
           sh """
-          cat /etc/passwd; 
+          usermod -u 1000 jenkins;
+          cat /etc/passwd;
           id
             """
         }
