@@ -44,7 +44,7 @@ volumes: [
       container('gradle') {
         sh "whoami;id"
       }
-      id
+     
           def myRepo = checkout scm
     
       
