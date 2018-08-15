@@ -14,7 +14,7 @@ spec:
     workingDir: '/home/jenkins'
     tty: true
     securityContext:
-      runAsUser: 0
+      runAsUser: 1000
 
 """
 podTemplate(label: labelDind,, yaml:yamlDinD,containers: [
