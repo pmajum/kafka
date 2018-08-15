@@ -9,15 +9,13 @@ metadata:
     label: jnlp
     
 spec:
-  securityContext:
-    runAsUser: 1000
   containers:
   - name: jnlp
     image: jenkins/jnlp-slave
     workingDir: '/home/jenkins'
     tty: true
     securityContext:
-      runAsUser: 1000
+      runAsUser: 0
   - name: docker
     image: docker
     tty: true
