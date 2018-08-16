@@ -17,9 +17,9 @@ spec:
    securityContext:
      runAsUser: 1000
 """
-podTemplate(label: label, yaml:yamlDinD,containers: [
+podTemplate(label: label, containers: [
     containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
-    containerTemplate(name: 'gradle', image: 'gradle:latest', ttyEnabled: true, command: 'cat')
+    containerTemplate(name: 'gradle', image: 'gradle:latest', ttyEnabled: true, workingDir: '/home/jenkins', command: 'cat')
   ]) {
 
     node(label) {
