@@ -24,7 +24,7 @@ spec:
        runAsUser: 1000
        allowPrivilegeEscalation: false
 """
-timestamps { 
+//timestamps { 
   podTemplate(label: label, yaml: yaml){
     node(label) {
       sh 'id'
@@ -38,4 +38,4 @@ timestamps {
       }
     }
   }
-}
+//}
