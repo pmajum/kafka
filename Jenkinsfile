@@ -23,7 +23,7 @@ pipeline {
           stage('Gradle Build'){
               steps{
                   container('gradle'){
-                          sh 'ls -lat'
+                          sh 'gradle -version'
                   }
               }
           }
