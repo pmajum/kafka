@@ -4,8 +4,8 @@ pipeline {
       //cloud 'kubernetes'
       label 'mypod'
       containerTemplate {
-        name 'golang'
-        image 'golang:1.10-alpine'
+        name 'gradle'
+        image 'gradle:latest'
         ttyEnabled true
         command 'cat'
       }
