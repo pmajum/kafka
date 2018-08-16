@@ -1,4 +1,4 @@
-def labelDind = "agent-k8s-${UUID.randomUUID().toString()}"
+def label = "agent-k8s-${UUID.randomUUID().toString()}"
 def yamlDinD = """
 apiVersion: v1
 kind: Pod
