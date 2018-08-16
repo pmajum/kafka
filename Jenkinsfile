@@ -21,7 +21,8 @@ podTemplate(label: label,containers: [
                    sh """
                         cd source-code
                         gradle -g /tmp
-                        ls -lat
+                        ./gradlew clean
+                        ./gradlew releaseTarGz
                     """
                    
                 }
