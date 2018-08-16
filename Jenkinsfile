@@ -36,8 +36,6 @@ volumes: [
           sh """
           useradd -u 1000 -p '' gradle;
           cat /etc/passwd;
-          su - jenkins;
-          cat /etc/passwd;
           id
             """
         }
