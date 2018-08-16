@@ -3,12 +3,28 @@ pipeline {
     kubernetes {
       //cloud 'kubernetes'
       label 'mypod'
-      containerTemplate {
+      
+      yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+labels:
+  component: ci
+spec:
+  containers:
+  - name: golang
+    image: golang:1.10
+    command:
+    - cat
+    tty: true
+"""
+      
+      /*containerTemplate {
         name 'gradle'
         image 'gradle:latest'
         ttyEnabled true
         command 'cat'
-      }
+      }*/
     
       
     }
@@ -24,8 +40,8 @@ pipeline {
           
           stage('Gradle Build'){
               steps{
-                  container('gradle'){
-                          sh 'gradle -version'
+                  container('golang'){
+                          sh 'ls -lat'
                   }
               }
           }
