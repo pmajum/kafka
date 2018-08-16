@@ -21,6 +21,7 @@ podTemplate(label: label,containers: [
                   
                    sh 'cd source-code'
                    sh 'gradle -g /tmp'
+                   sh 'ls -lat'
                 }
             }
         }
