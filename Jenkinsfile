@@ -22,7 +22,7 @@ pipeline {
           
           stage('Gradle Build'){
               steps{
-                  container('golang'){
+                  container('gradle'){
                           sh 'ls -lat'
                   }
               }
