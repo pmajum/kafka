@@ -31,13 +31,14 @@ podTemplate(label: labelDind,, yaml:yamlDinD,containers: [
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
 ]) {
-checkout([$class: 'GitSCM', 
+
+          node(labelDind){
+          checkout([$class: 'GitSCM', 
         branches: [[name: '*/master']], 
         doGenerateSubmoduleConfigurations: false, 
         extensions: [[$class: 'RelativeTargetDirectory', 
             relativeTargetDir: 'checkout-directory']], 
         submoduleCfg: []])
-          node(labelDind){
      container('jnlp') {
           sh """
           id
