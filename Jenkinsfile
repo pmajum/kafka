@@ -4,8 +4,8 @@ pipeline {
       //cloud 'kubernetes'
       label 'mypod'
       containerTemplate {
-        name 'maven'
-        image 'maven:3.3.9-jdk-8-alpine'
+        name 'gradle'
+        image 'gradle:4.5.1-jdk9'
         ttyEnabled true
         command 'cat'
       }
@@ -20,9 +20,9 @@ pipeline {
               }
           }
           
-          stage('Maven'){
+          stage('Gradle Build'){
               steps{
-                  container('maven'){
+                  container('gradle'){
                           sh 'ls -lat'
                   }
               }
