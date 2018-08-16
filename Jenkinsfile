@@ -8,6 +8,7 @@ pipeline {
         image 'gradle:4.5.1-jdk9'
         ttyEnabled true
         command 'cat'
+        workingDir '/home/jenkins'
       }
     }
   }
