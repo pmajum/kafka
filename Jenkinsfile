@@ -20,9 +20,9 @@ podTemplate(label: label,containers: [
                 stage('Build a Gradle project') {
                    sh """
                         cd source-code
-                        gradle
-                        ./gradlew clean
-                        ./gradlew releaseTarGz
+                        gradle -g /tmp clean
+                         
+                        
                     """
                    
                 }
