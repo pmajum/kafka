@@ -10,6 +10,13 @@ pipeline {
         ttyEnabled true
         command 'cat'
       }
+      
+      containerTemplate {
+        name 'maven'
+        image 'maven:latest'
+        ttyEnabled true
+        command 'cat'
+      }
     
       
     }
@@ -19,6 +26,14 @@ pipeline {
               steps{
                   container('jnlp'){
                          checkout scm
+                  }
+              }
+          }
+    
+          stage('Maven Build'){
+              steps{
+                  container('maven'){
+                          sh 'ls -lat'
                   }
               }
           }
