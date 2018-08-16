@@ -34,8 +34,6 @@ volumes: [
           node(labelDind){
      container('jnlp') {
           sh """
-          useradd -u 1000 -p '' gradle;
-          cat /etc/passwd;
           id
             """
         }
