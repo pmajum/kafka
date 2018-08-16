@@ -3,37 +3,34 @@ def yamlDinD = """
 apiVersion: v1
 kind: Pod
 metadata:
- generateName: agent-k8s-
- labels:
-   name: jnlp
-   label: jnlp
-
+  generateName: agent-k8s-
+  labels:
+    name: jnlp
+    label: jnlp
 spec:
- containers:
- - name: jnlp
-   image: jenkins/jnlp-slave
-   workingDir: '/home/jenkins'
-   tty: true
-   securityContext:
-     runAsUser: 1000
+  securityContext:
+    runAsUser: 1000
+  containers:
+  - name: jnlp
+    image: jenkins/jnlp-slave
+    tty: true
+    securityContext:
+      runAsUser: 1000
+      allowPrivilegeEscalation: false
+  - name: gradle
+    image: gradle:latest
+    tty: true
+    command: 'cat'
+    securityContext:
+      runAsUser: 1000
+      privileged: true
 """
-podTemplate(label: label, containers: [
-    containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
-    containerTemplate(name: 'gradle', image: 'gradle:latest', ttyEnabled: true, workingDir: '/home/jenkins', command: 'cat')
-  ]) {
+podTemplate(label: label, yaml:yamlDinD) {
 
-    node(label) {
-        stage('Get a Maven project') {
-            checkout scm
-            container('maven') {
-                stage('Build a Maven project') {
-                    sh 'ls -lat'
-                }
-            }
-        }
+ node(label) {
 
         stage('Get a Gradle project') {
-           
+            checkout scm
             container('gradle') {
                 stage('Build a Gradle project') {
                    sh 'ls -lat'
