@@ -17,7 +17,7 @@ pipeline {
           stage('CheckOut'){
               steps{
                   container('jnlp'){
-                          git([url: 'https://github.com/pmajum/kafka.git', branch: 'master'])
+                         checkout scm
                   }
               }
           }
