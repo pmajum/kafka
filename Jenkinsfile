@@ -9,6 +9,8 @@ metadata:
     label: jnlp
     
 spec:
+  securityContext:
+    runAsUser: 1000
   containers:
   - name: jnlp
     image: jenkins/jnlp-slave
