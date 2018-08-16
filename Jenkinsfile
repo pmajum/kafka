@@ -24,7 +24,7 @@ spec:
 
 """
 //timestamps { 
-  podTemplate(label: label, yaml: yaml){
+  podTemplate(label: label, yaml: yamlDinD){
     node(label) {
       sh 'id'
       stage('Run on k8s'){
