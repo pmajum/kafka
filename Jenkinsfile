@@ -4,11 +4,10 @@ pipeline {
       //cloud 'kubernetes'
       label 'mypod'
       containerTemplate {
-        name 'gradle'
-        image 'gradle:4.5.1-jdk9'
+        name 'golang'
+        image 'golang:1.10-alpine'
         ttyEnabled true
         command 'cat'
-        workingDir '/home/jenkins'
       }
     }
   }
@@ -23,7 +22,7 @@ pipeline {
           
           stage('Gradle Build'){
               steps{
-                  container('gradle'){
+                  container('golang'){
                           sh 'ls -lat'
                   }
               }
