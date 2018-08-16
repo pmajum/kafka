@@ -1,6 +1,6 @@
 def label = "agent-k8s-${UUID.randomUUID().toString()}"
 
-podTemplate(label: label, yaml:yamlDinD,containers: [
+podTemplate(label: label,containers: [
     containerTemplate(name: 'gradle', image: 'gradle:4.5.1-jdk9', command: 'cat', ttyEnabled: true),
 
 ],volumes: [
