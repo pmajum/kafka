@@ -33,12 +33,7 @@ volumes: [
 ]) {
 
           node(labelDind){
-          checkout([$class: 'GitSCM', 
-        branches: [[name: '*/master']], 
-        doGenerateSubmoduleConfigurations: false, 
-        extensions: [[$class: 'RelativeTargetDirectory', 
-            relativeTargetDir: 'checkout-directory']], 
-        submoduleCfg: []])
+          def myRepo = checkout scm
      container('jnlp') {
           sh """
           id
