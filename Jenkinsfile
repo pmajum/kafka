@@ -18,9 +18,9 @@ podTemplate(label: label,containers: [
             checkout scm
             container('gradle') {
                 stage('Build a Gradle project') {
-                   sh 'export GRADLE_USER_HOME="/tmp"'
+                  
                    sh 'cd source-code'
-                   sh 'gradle --version'
+                   sh 'gradle --stacktrace'
                 }
             }
         }
