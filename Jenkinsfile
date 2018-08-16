@@ -18,10 +18,12 @@ podTemplate(label: label,containers: [
             checkout scm
             container('gradle') {
                 stage('Build a Gradle project') {
-                  
-                   sh 'cd source-code'
-                   sh 'gradle -g /tmp'
-                   sh 'ls -lat'
+                   sh """
+                        cd source-code
+                        gradle -g /tmp
+                        ls -lat
+                    """
+                   
                 }
             }
         }
