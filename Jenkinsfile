@@ -1,60 +1,37 @@
-labelDind = "agent-k8s-${UUID.randomUUID().toString()}"
-def yamlDinD = """
-apiVersion: v1
-kind: Pod
-metadata:
-  generateName: agent-k8s-
-  labels:
-    name: jnlp
-    label: jnlp
-    
-spec:
-  containers:
-  - name: jnlp
-    image: jenkins/jnlp-slave
-    workingDir: '/home/jenkins'
-    tty: true
-    securityContext:
-      runAsUser: 1000
-  - name: docker
-    image: docker
-    tty: true
-    securityContext:
-      runAsUser: 0
-  - name: gradle
-    image: gradle:4.5.1-jdk9
-    tty: true
-    securityContext:
-      runAsUser: 0
-
-"""
-podTemplate(label: labelDind, yaml:yamlDinD,containers: [
-    containerTemplate(name: 'docker', image: 'docker',       command: 'cat', ttyEnabled: true),
-
- ],
-volumes: [
-  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
-]) {
-
-          node(labelDind){
-          def myRepo = checkout scm
-     container('jnlp') {
-          sh """
-          id
-            """
-        }
-        container('docker') {
-          sh """
-          cat /etc/passwd;id
-         """
-        }
-    
-      container('gradle') {
-        sh "cat /etc/passwd;id"
+pipeline {
+  agent {
+    kubernetes {
+      //cloud 'kubernetes'
+      label 'mypod'
+      containerTemplate {
+        name 'maven'
+        image 'maven:3.3.9-jdk-8-alpine'
+        ttyEnabled true
+        command 'cat'
       }
-     
-          
-      
-    
+    }
+  }
+  stages {
+          stage('CheckOut'){
+              steps{
+                  container('jnlp'){
+                          git([url: 'https://github.com/pmajum/kafka.git', branch: 'master'])
+                  }
               }
-            }
+          }
+          
+          stage('Maven'){
+              steps{
+                  container('maven'){
+                          sh 'ls -lat'
+                  }
+              }
+          }
+           
+           
+   }
+       
+        
+  
+  
+}
