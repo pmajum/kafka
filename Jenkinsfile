@@ -1,7 +1,7 @@
 def label = "mypod-${UUID.randomUUID().toString()}"
 podTemplate(label: label, containers: [
     containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
-    containerTemplate(name: 'golang', image: 'golang:1.8.0', ttyEnabled: true, command: 'cat')
+    containerTemplate(name: 'gradle', image: 'gradle:latest', ttyEnabled: true, command: 'cat')
   ]) {
 
     node(label) {
@@ -14,10 +14,10 @@ podTemplate(label: label, containers: [
             }
         }
 
-        stage('Get a Golang project') {
+        stage('Get a Gradle project') {
            
-            container('golang') {
-                stage('Build a Go project') {
+            container('gradle') {
+                stage('Build a Gradle project') {
                    sh 'ls -lat'
                 }
             }
