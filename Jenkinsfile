@@ -1,5 +1,5 @@
 def label = "mypod-${UUID.randomUUID().toString()}"
-podTemplate(label: label, containers: [
+podTemplate(label: label, runAsUser: 0, fsGroup: 0,containers: [
     containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'gradle', image: 'gradle:latest', ttyEnabled: true, command: 'cat')
   ]) {
