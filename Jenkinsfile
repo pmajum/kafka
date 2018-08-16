@@ -19,7 +19,7 @@ podTemplate(label: label,containers: [
             container('gradle') {
                 stage('Build a Gradle project') {
                    sh 'cd source-code'
-                   sh 'gradle'
+                   sh 'gradle --version'
                 }
             }
         }
