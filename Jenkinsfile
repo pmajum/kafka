@@ -31,6 +31,12 @@ podTemplate(label: labelDind,, yaml:yamlDinD,containers: [
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
 ]) {
+checkout([$class: 'GitSCM', 
+        branches: [[name: '*/master']], 
+        doGenerateSubmoduleConfigurations: false, 
+        extensions: [[$class: 'RelativeTargetDirectory', 
+            relativeTargetDir: 'checkout-directory']], 
+        submoduleCfg: []])
           node(labelDind){
      container('jnlp') {
           sh """
@@ -47,8 +53,7 @@ volumes: [
         sh "cat /etc/passwd;id"
       }
      
-          def myRepo = checkout scm
-    
+          
       
     
               }
