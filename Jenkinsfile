@@ -1,27 +1,41 @@
-def label = "agent-k8s-${UUID.randomUUID().toString()}"
-
-podTemplate(label: label,containers: [
-    containerTemplate(name: 'jnlp', image: 'jenkins/jnlp-slave:latest', args: '${computer.jnlpmac} ${computer.name}'),
-    containerTemplate(name: 'gradle', image: 'gradle:4.5.1-jdk9', command: 'cat', ttyEnabled: true)
-
-],volumes: [
-        hostPathVolume(
-            hostPath: '/var/run/docker.sock',
-            mountPath: '/var/run/docker.sock'
-        ),
-        hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/tmp/jenkins/.gradle'),
-    ]) {
-
- node(label) {
-
-        stage('Get a Gradle project') {
-            checkout scm
-            container('gradle') {
-                stage('Build a Gradle project') {
-                   sh 'ls -lat'
-                }
-            }
+def label = "mypod-${UUID.randomUUID().toString()}"
+def workspace = "/tmp/jenkins-${UUID.randomUUID().toString()}"
+def name = 'jenkins'
+def yaml = """
+apiVersion: v1
+kind: Pod
+metadata:
+  generateName: jnlp-
+  labels:
+    name: jnlp
+    label: jnlp
+spec:
+  containers:
+    - name: jnlp
+    image: jenkins/jnlp-slave
+    tty: true
+    securityContext:
+      runAsUser: 1000
+      allowPrivilegeEscalation: false
+    - name: jenkins
+      image: jenkins/jenkins
+      tty: true
+      securityContext:
+       runAsUser: 1000
+       allowPrivilegeEscalation: false
+"""
+timestamps { 
+  podTemplate(label: label, yaml: yaml){
+    node(label) {
+      sh 'id'
+      stage('Run on k8s'){
+        container('jnlp') {
+          sh 'id'
         }
-
+        container(name) {
+          sh 'id'
+        }
+      }
     }
+  }
 }
