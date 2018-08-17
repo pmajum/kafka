@@ -9,7 +9,7 @@ podTemplate(label: label,containers: [
             hostPath: '/var/run/docker.sock',
             mountPath: '/var/run/docker.sock'
         ),
-        hostPathVolume(mountPath: '/tmp', hostPath: '/tmp/jenkins/.gradle'),
+        hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/tmp/jenkins/.gradle'),
     ]) {
 
  node(label) {
