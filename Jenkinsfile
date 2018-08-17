@@ -22,7 +22,7 @@ podTemplate(label: label,containers: [
                         cd source-code
                         gradle
                         ./gradlew clean
-                        
+                        ./gradlew releaseTarGz
                     """
                    
                 }
