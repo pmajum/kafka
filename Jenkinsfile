@@ -33,7 +33,7 @@ podTemplate(label: label,containers: [
      stage('Build Docker image'){
          container('docker'){
              sh """
-             ls -lat
+             docker build -t openwhisk/kafka .
              """
          }
          
