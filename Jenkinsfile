@@ -35,6 +35,7 @@ podTemplate(label: label,containers: [
              sh """
              docker build -t openwhisk/kafka .
              docker tag openwhisk/kafka mycluster.icp:8500/openwhisk/kafka:v2
+             docker login -u admin -p admin mycluster.icp:8500
              docker push mycluster.icp:8500/openwhisk/kafka:v2
              """
          }
