@@ -9,7 +9,7 @@ podTemplate(label: label,containers: [
             hostPath: '/var/run/docker.sock',
             mountPath: '/var/run/docker.sock'
         ),
-        hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/tmp/jenkins/.gradle'),
+        hostPathVolume(mountPath: '/tmp', hostPath: '/tmp/jenkins/.gradle'),
     ]) {
 
  node(label) {
@@ -20,7 +20,7 @@ podTemplate(label: label,containers: [
                 stage('Build a Gradle project') {
                    sh """
                         cd source-code
-                        gradle -g /home/gradle/.gradle clean releaseTarGz
+                        gradle -g /tmp clean releaseTarGz
                          
                         
                     """
