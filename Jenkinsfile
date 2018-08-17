@@ -2,7 +2,8 @@ def label = "agent-k8s-${UUID.randomUUID().toString()}"
 
 podTemplate(label: label,containers: [
     containerTemplate(name: 'jnlp', image: 'jenkins/jnlp-slave:latest', args: '${computer.jnlpmac} ${computer.name}'),
-    containerTemplate(name: 'gradle', image: 'prasenjit/gradle:latest', command: 'cat', ttyEnabled: true)
+    containerTemplate(name: 'gradle', image: 'prasenjit/gradle:latest', command: 'cat', ttyEnabled: true),
+    containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
 
 ],volumes: [
         hostPathVolume(
@@ -23,12 +24,20 @@ podTemplate(label: label,containers: [
                         gradle
                         ./gradlew clean
                         ./gradlew releaseTarGz
-                        ls core/build/distributions
                       """
                    
                 }
             }
         }
+     
+     stage('Build Docker image'){
+         container('docker'){
+             sh """
+             ls -lat
+             """
+         }
+         
+     }
 
     }
 }
