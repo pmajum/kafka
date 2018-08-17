@@ -23,7 +23,8 @@ podTemplate(label: label,containers: [
                         gradle
                         ./gradlew clean
                         ./gradlew releaseTarGz
-                    """
+                        ls core/build/distributions
+                      """
                    
                 }
             }
